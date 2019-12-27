@@ -12,30 +12,25 @@ namespace PracticaEventos
     {
         static void Main(string[] args)
         {
-            LeerTexto();
-        }
+            Console.WriteLine("Eventos: ");
 
-        public static void LeerTexto()
-        {
-            string[] lineas;
+            LectorEvento oLeerDocumento = new LectorEvento();
 
-            lineas = File.ReadAllLines(@"C:\Ejercicios\PracticaEventos\archivo.txt");
+            List<Evento> lstEventos = oLeerDocumento.ExtraerEvento("archivo.txt");
 
-            char[] delimitador = { ',' };
+            DateTime dtFechaHoy = DateTime.Now;
 
-            DateTime fecha = DateTime.Now;
-          
-
-            Console.WriteLine("Serie de eventos");
-
-            foreach (string line in lineas)
+            string[] lines = File.ReadAllLines("archivo.txt"); 
+            foreach (string linea in lines) 
             {
-               
-                Console.WriteLine("\t" + line);
+                string[] separar; 
+                separar = linea.Split(','); 
+                Console.WriteLine(separar[0] + "\t \t" + separar[1]); 
             }
-          
+
+
             Console.ReadKey();
         }
-        
     }
+        
 }

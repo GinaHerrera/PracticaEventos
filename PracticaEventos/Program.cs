@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using PracticaEventos.Leer;
+using PracticaEventos.ManejoTiempo;
+using PracticaEventos.Visualizar;
 
 namespace PracticaEventos
 {
@@ -12,24 +10,44 @@ namespace PracticaEventos
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Eventos: ");
+            Console.WriteLine("Lista de Eventos: \n ");
 
-            LectorEvento oLeerDocumento = new LectorEvento();
 
-            List<Evento> lstEventos = oLeerDocumento.ExtraerEvento("archivo.txt");
+            ILeerArchivo oLeer = new LeerArchivo();
 
-            DateTime dtFechaHoy = DateTime.Now;
+            string[] texto = oLeer.LeerTexto("archivo.txt");
 
-            string[] lines = File.ReadAllLines("archivo.txt"); 
-            foreach (string linea in lines) 
+
+            ILectorEvento oLector = new LectorEvento();
+
+            List<Evento> olstEvento = oLector.ExtraerEvento(texto);
+
+
+         
+            IVisualizador oVisualizar = new Visualizador();
+
+            IRangoTiempo oTiempo = new RangoTiempo();
+
+            Handler oMinuto = new Minuto(oVisualizar, oTiempo);
+            Handler oHora = new Hora(oVisualizar, oTiempo);
+            Handler oDia = new Dia(oVisualizar, oTiempo);
+            Handler oMes = new Mes(oVisualizar, oTiempo);
+
+            oMinuto.Siguiente(oHora);
+            oHora.Siguiente(oDia);
+            oDia.Siguiente(oMes);
+
+
+            foreach (Evento oEvent in olstEvento)
             {
-                string[] separar; 
-                separar = linea.Split(','); 
-                Console.WriteLine(separar[0] + "\t \t" + separar[1]); 
+                oMinuto.EvaluarResultado(oEvent);
             }
 
+            Console.Write("\n");
 
-            Console.ReadKey();
+            Console.WriteLine("Presiona la tecla 's' para salir");
+
+            Console.ReadLine();
         }
     }
         

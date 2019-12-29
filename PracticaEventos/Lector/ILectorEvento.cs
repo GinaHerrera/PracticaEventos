@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PracticaEventos
 {
-   public class Dia
+    public interface ILectorEvento
     {
-
+       List<Evento> ExtraerEvento(string[] texto);
     }
 }

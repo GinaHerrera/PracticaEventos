@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PracticaEventos.Interfaz
+namespace PracticaEventos.Leer
 {
-   public interface IRangoTiempo
+   public interface ILeerArchivo
     {
-        int ObtenerRango (DateTime dtFechaEvento);
+        string [] LeerTexto(string cRuta);
     }
 }
